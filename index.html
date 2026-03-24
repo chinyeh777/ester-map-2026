@@ -23,18 +23,18 @@
       background-color: var(--primary-color);
       color: white;
       text-align: center;
-      padding: 2rem 1rem;
+      padding: 1.5rem 1rem;
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
     h1 {
       margin: 0;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
     }
     .container {
       max-width: 600px;
-      margin: -20px auto 20px;
+      margin: -15px auto 20px;
       padding: 0 15px;
     }
     .card {
@@ -43,6 +43,29 @@
       padding: 20px;
       margin-top: 20px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .map-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .map-container {
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 15px;
+      border: 1px solid #eee;
+    }
+    /* 讓 iframe 響應式符合寬度 */
+    .map-container iframe {
+      width: 100%;
+      height: 250px;
+      border: 0;
+      display: block;
     }
     .btn-map {
       display: block;
@@ -54,9 +77,9 @@
       border-radius: 10px;
       text-decoration: none;
       font-weight: bold;
-      font-size: 1.1rem;
-      margin-top: 15px;
+      font-size: 1rem;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: background-color 0.2s;
     }
     .btn-map:active {
       transform: scale(0.98);
@@ -108,12 +131,6 @@
       color: #666;
       margin-top: 2px;
     }
-    .notice-list {
-      padding-left: 20px;
-    }
-    .notice-list li {
-      margin-bottom: 10px;
-    }
   </style>
 </head>
 <body>
@@ -123,12 +140,35 @@
   </header>
 
   <div class="container">
+    
     <div class="card">
-      <h2 style="margin-top: 0; color: var(--primary-color);">🗺️ 路線總覽</h2>
-      <p><strong>起點：</strong>林森南路禮拜堂 (林森南路2號)<br>
-         <strong>中繼：</strong>台大醫院國際會議中心 (徐州路2號)<br>
-         <strong>終點：</strong>中正紀念堂大忠門 (信義路一段)</p>
-      <a href="https://www.google.com/maps/dir/林森南路禮拜堂/臺大醫院國際會議中心/中正紀念堂大忠門/臺大醫院國際會議中心" class="btn-map" target="_blank">📍 開啟 Google Maps 導航</a>
+      <div class="map-title">📍 第一段：禮拜堂 ➔ 國際會議中心</div>
+      <p style="font-size: 0.9rem; color: #555; margin-top: 0;">出發前往獻詩地點 (步行約 7 分鐘)</p>
+      
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.73516584282!2d121.5197022!3d25.040003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9712b196eb5%3A0x6a0a09e0a811c470!2z6Ie65aSn6Yar6Zmi5ZyL6Zqb5pyD6K2w5Lit5b+D!5e0!3m2!1szh-TW!2stw!4v1710500000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&origin=林森南路禮拜堂&destination=臺大醫院國際會議中心&travelmode=walking" class="btn-map" target="_blank">📱 點此開啟 Google Maps 導航</a>
+    </div>
+
+    <div class="card">
+      <div class="map-title">📍 第二段：國際會議中心 ➔ 大忠門</div>
+      <p style="font-size: 0.9rem; color: #555; margin-top: 0;">獻詩結束，前往發彩蛋 (步行約 12 分鐘)</p>
+      
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.8696803875323!2d121.5204432103448!3d25.0350711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a976f9d2bb91%3A0x2db42d7655d8f6cc!2z5Lit5q2j57SA5b+15aCC5aSn5bCg6ZaA!5e0!3m2!1szh-TW!2stw!4v1710500100000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&origin=臺大醫院國際會議中心&destination=中正紀念堂大忠門&travelmode=walking" class="btn-map" target="_blank">📱 點此開啟 Google Maps 導航</a>
+    </div>
+
+    <div class="card">
+      <div class="map-title">📍 第三段：大忠門 ➔ 國際會議中心</div>
+      <p style="font-size: 0.9rem; color: #555; margin-top: 0;">發完彩蛋，原路折返會場 (步行約 12 分鐘)</p>
+      
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.73516584282!2d121.5197022!3d25.040003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9712b196eb5%3A0x6a0a09e0a811c470!2z6Ie65aSn6Yar6Zmi5ZyL6Zqb5pyD6K2w5Lit5b+D!5e0!3m2!1szh-TW!2stw!4v1710500000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&origin=中正紀念堂大忠門&destination=臺大醫院國際會議中心&travelmode=walking" class="btn-map" target="_blank">📱 點此開啟 Google Maps 導航</a>
     </div>
 
     <div class="card">
@@ -137,7 +177,6 @@
         <li>
           <span class="time">08:30 ~ 09:00</span>
           <div class="event">教會集合練唱</div>
-          <div class="location">📍 林森南路禮拜堂</div>
         </li>
         <li>
           <span class="time">09:00 ~ 09:10</span>
@@ -167,7 +206,7 @@
         <li>
           <span class="time">11:15 ~ 11:30</span>
           <div class="event">發送復活節彩蛋 🥚</div>
-          <div class="location">📍 中正紀念堂大忠門</div>
+          <div class="location">📍 大忠門</div>
         </li>
         <li>
           <span class="time">11:30 ~ 11:35</span>
@@ -178,15 +217,6 @@
           <div class="event">回到聚會現場</div>
           <div class="location">📍 國際會議中心</div>
         </li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2 style="margin-top: 0; color: var(--primary-color);">⚠️ 帶隊安全注意事項</h2>
-      <ul class="notice-list">
-        <li><strong>過馬路安全：</strong> 行經徐州路、仁愛路及信義路口時，請老師務必在隊伍前後帶領，注意號誌。</li>
-        <li><strong>結伴同行：</strong> 請確保孩子們有小夥伴互相牽手，清點人數後再移動。</li>
-        <li><strong>體力分配：</strong> 獻詩後到大忠門來回約需走路 25-30 分鐘，請隨時留意孩子們的水分補充與狀況。</li>
       </ul>
     </div>
   </div>
