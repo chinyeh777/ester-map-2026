@@ -10,6 +10,7 @@
       --secondary-color: #F6D167;
       --bg-color: #FDFCEF;
       --text-color: #333333;
+      --alert-color: #E63946;
     }
     body {
       font-family: 'Helvetica Neue', Arial, 'LiHei Pro', '微軟正黑體', sans-serif;
@@ -28,20 +29,54 @@
       border-bottom-right-radius: 20px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
-    h1 {
-      margin: 0;
-      font-size: 1.4rem;
-    }
+    h1 { margin: 0; font-size: 1.4rem; }
+    
     .container {
       max-width: 600px;
-      margin: -15px auto 20px;
+      margin: 15px auto 30px;
       padding: 0 15px;
     }
+    
+    /* 頁籤切換設計 */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 12px 0;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      background-color: #E0E0E0;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .tab-btn.active {
+      background-color: var(--secondary-color);
+      color: #333;
+    }
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s;
+    }
+    .tab-content.active { display: block; }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .card {
       background: white;
       border-radius: 15px;
       padding: 20px;
-      margin-top: 20px;
+      margin-bottom: 20px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
     .map-title {
@@ -49,9 +84,6 @@
       font-weight: bold;
       color: var(--primary-color);
       margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
     }
     .map-container {
       width: 100%;
@@ -60,7 +92,6 @@
       margin-bottom: 15px;
       border: 1px solid #eee;
     }
-    /* 讓 iframe 響應式符合寬度 */
     .map-container iframe {
       width: 100%;
       height: 250px;
@@ -70,20 +101,20 @@
     .btn-map {
       display: block;
       width: 100%;
-      background-color: var(--secondary-color);
-      color: #333;
+      background-color: #E8F0FE;
+      color: #1A73E8;
       text-align: center;
       padding: 12px 0;
       border-radius: 10px;
       text-decoration: none;
       font-weight: bold;
       font-size: 1rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       transition: background-color 0.2s;
     }
-    .btn-map:active {
-      transform: scale(0.98);
-    }
+    .btn-map:active { transform: scale(0.98); }
+    
+    /* 時間軸設計 */
     .timeline {
       position: relative;
       margin: 20px 0;
@@ -93,9 +124,7 @@
     .timeline::before {
       content: '';
       position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 6px;
+      top: 0; bottom: 0; left: 6px;
       width: 4px;
       background: var(--primary-color);
       border-radius: 2px;
@@ -107,10 +136,8 @@
     .timeline li::before {
       content: '';
       position: absolute;
-      left: -22px;
-      top: 6px;
-      width: 12px;
-      height: 12px;
+      left: -22px; top: 6px;
+      width: 12px; height: 12px;
       background: white;
       border: 3px solid var(--secondary-color);
       border-radius: 50%;
@@ -122,14 +149,17 @@
       display: block;
       margin-bottom: 4px;
     }
-    .event {
-      font-size: 1rem;
-      font-weight: bold;
-    }
-    .location {
+    .event { font-size: 1rem; font-weight: bold; }
+    .location { font-size: 0.9rem; color: #666; margin-top: 2px; }
+    .alert {
+      background-color: #FFEBEB;
+      color: var(--alert-color);
+      padding: 8px 12px;
+      border-radius: 8px;
       font-size: 0.9rem;
-      color: #666;
-      margin-top: 2px;
+      margin-top: 8px;
+      font-weight: bold;
+      display: inline-block;
     }
   </style>
 </head>
@@ -141,83 +171,161 @@
 
   <div class="container">
     
- <div class="card">
-      <div class="map-title">📍 第一段：禮拜堂 ➔ 國際會議中心</div>
-      <p style="font-size: 0.9rem; color: #555; margin-top: 0;">出發前往獻詩地點 (步行約 7 分鐘)</p>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('sunny')">☀️ 晴天方案</button>
+      <button class="tab-btn" onclick="switchTab('rainy')">☔ 雨天備案</button>
+    </div>
+
+    <div id="sunny" class="tab-content active">
       
-      <div class="map-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d7229.546122506048!2d121.51998671526299!3d25.041774479284715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x3442a9705418b2fb%3A0xf0d0981e3dd6baf7!2z5p6X5qOu5Y2X6Lev56au5ouc5aCCIDEwMOiHuuWMl-W4guS4reato-WNgOael-ajruWNl-i3rzLomZ8!3m2!1d25.044322299999997!2d121.523095!4m5!1s0x3442a976b82a6343%3A0xfa4b50ed14c4d879!2z6Ie65aSn6Yar6Zmi5ZyL6Zqb5pyD6K2w5Lit5b-DIDEwMOiHuuWMl-W4guS4reato-WNgOW-kOW3nui3rzLomZ8!3m2!1d25.040942299999998!2d121.52076509999999!5e0!3m2!1szh-TW!2stw!4v1774320291078!5m2!1szh-TW!2stw" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="card">
+        <h2 style="margin-top: 0; color: var(--primary-color);">☀️ 晴天活動時程表</h2>
+        <ul class="timeline">
+          <li>
+            <span class="time">08:30</span>
+            <div class="event">教會集合，練唱與說明</div>
+            <div class="location">📍 林森南路禮拜堂 4 樓</div>
+          </li>
+          <li>
+            <span class="time">09:10</span>
+            <div class="event">整隊出發 🚶‍♂️</div>
+            <div class="location">前往國際會議中心</div>
+          </li>
+          <li>
+            <span class="time">09:30</span>
+            <div class="event">走位加彩排一次</div>
+            <div class="location">📍 國際會議中心 1 樓會場</div>
+          </li>
+          <li>
+            <span class="time">10:00</span>
+            <div class="event">聚會開始</div>
+          </li>
+          <li>
+            <span class="time">10:35</span>
+            <div class="event">預計獻詩 🎵</div>
+          </li>
+          <li>
+            <span class="time">10:40</span>
+            <div class="event">獻詩結束，帶離一樓會場</div>
+            <div class="alert">⚠️ 注意：聯合詩班的 9 位小朋友請繼續留在一樓會場</div>
+          </li>
+          <li>
+            <span class="time">10:50</span>
+            <div class="event">前往中正紀念堂大忠門 🚶‍♂️</div>
+          </li>
+          <li>
+            <span class="time">11:15</span>
+            <div class="event">發送復活節彩蛋 🥚</div>
+            <div class="location">📍 中正紀念堂 大忠門</div>
+            <div class="location">🍙 兒主預備小七肉鬆御飯糰墊肚子</div>
+          </li>
+          <li>
+            <span class="time">12:10</span>
+            <div class="event">帶隊走回會議中心 🚶‍♂️</div>
+          </li>
+          <li>
+            <span class="time">12:30</span>
+            <div class="event">家長認領，帶小孩至預定桌次用餐</div>
+            <div class="location">📍 國際會議中心 2 樓餐廳</div>
+          </li>
+        </ul>
       </div>
-      <a href="https://www.google.com/maps/dir/?api=1&origin=林森南路禮拜堂&destination=臺大醫院國際會議中心&travelmode=walking" class="btn-map" target="_blank">📱 點此開啟 Google Maps 導航</a>
-    </div>
 
-    <div class="card">
-      <div class="map-title">📍 第二段：國際會議中心 ➔ 大忠門</div>
-      <p style="font-size: 0.9rem; color: #555; margin-top: 0;">獻詩結束，前往發彩蛋 (步行約 12 分鐘)</p>
+      <div class="card">
+        <div class="map-title">📍 第一段：教會 ➔ 國際會議中心</div>
+        <div class="map-container">
+           <iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d7229.546122506048!2d121.51998671526299!3d25.041774479284715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x3442a9705418b2fb%3A0xf0d0981e3dd6baf7!2z5p6X5qOu5Y2X6Lev56au5ouc5aCCIDEwMOiHuuWMl-W4guS4reato-WNgOael-ajruWNl-i3rzLomZ8!3m2!1d25.044322299999997!2d121.523095!4m5!1s0x3442a976b82a6343%3A0xfa4b50ed14c4d879!2z6Ie65aSn6Yar6Zmi5ZyL6Zqb5pyD6K2w5Lit5b-DIDEwMOiHuuWMl-W4guS4reato-WNgOW-kOW3nui3rzLomZ8!3m2!1d25.040942299999998!2d121.52076509999999!5e0!3m2!1szh-TW!2stw!4v1774320291078!5m2!1szh-TW!2stw" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
       
-      <div class="map-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d3614.865991211712!2d121.51979152537668!3d25.038621477813333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x3442a976b82a6343%3A0xfa4b50ed14c4d879!2z6Ie65aSn6Yar6Zmi5ZyL6Zqb5pyD6K2w5Lit5b-DIDEwMOiHuuWMl-W4guS4reato-WNgOW-kOW3nui3rzLomZ8!3m2!1d25.040942299999998!2d121.52076509999999!4m5!1s0x3442a976006d29af%3A0xb9f79bf60644c64a!2z5Lit5q2j57SA5b-15aCC5aSn5b-g6ZaAIDEwMOiHuuWMl-W4guS4reato-WNgOS4reWxseWNl-i3rzIx6Jmf!3m2!1d25.0359956!2d121.5226313!5e0!3m2!1szh-TW!2stw!4v1774321706165!5m2!1szh-TW!2stw" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      <a href="https://www.google.com/maps/dir/?api=1&origin=臺大醫院國際會議中心&destination=中正紀念堂大忠門&travelmode=walking" class="btn-map" target="_blank">📱 點此開啟 Google Maps 導航</a>
+      <div class="card">
+        <div class="map-title">📍 第二段：國際會議中心 ➔ 大忠門</div>
+        <div class="map-container">
+         <iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d3614.865991211712!2d121.51979152537668!3d25.038621477813333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x3442a976b82a6343%3A0xfa4b50ed14c4d879!2z6Ie65aSn6Yar6Zmi5ZyL6Zqb5pyD6K2w5Lit5b-DIDEwMOiHuuWMl-W4guS4reato-WNgOW-kOW3nui3rzLomZ8!3m2!1d25.040942299999998!2d121.52076509999999!4m5!1s0x3442a976006d29af%3A0xb9f79bf60644c64a!2z5Lit5q2j57SA5b-15aCC5aSn5b-g6ZaAIDEwMOiHuuWMl-W4guS4reato-WNgOS4reWxseWNl-i3rzIx6Jmf!3m2!1d25.0359956!2d121.5226313!5e0!3m2!1szh-TW!2stw!4v1774321706165!5m2!1szh-TW!2stw" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+      <div class="card">
+        <div class="map-title">📍 第三段：大忠門 ➔ 國際會議中心 2F</div>
+        <div class="map-container">
+         <iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d3614.865991211712!2d121.51979152537668!3d25.038621477813333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x3442a976006d29af%3A0xb9f79bf60644c64a!2z5Lit5q2j57SA5b-15aCC5aSn5b-g6ZaAIDEwMOiHuuWMl-W4guS4reato-WNgOS4reWxseWNl-i3rzIx6Jmf!3m2!1d25.0359956!2d121.5226313!4m5!1s0x3442a976b82a6343%3A0xfa4b50ed14c4d879!2z6Ie65aSn6Yar6Zmi5ZyL6Zqb5pyD6K2w5Lit5b-DIDEwMOiHuuWMl-W4guS4reato-WNgOW-kOW3nui3rzLomZ8!3m2!1d25.040942299999998!2d121.52076509999999!5e0!3m2!1szh-TW!2stw!4v1774321729702!5m2!1szh-TW!2stw" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
     </div>
 
-    <div class="card">
-      <div class="map-title">📍 第三段：大忠門 ➔ 國際會議中心</div>
-      <p style="font-size: 0.9rem; color: #555; margin-top: 0;">發完彩蛋，原路折返會場 (步行約 12 分鐘)</p>
+
+    <div id="rainy" class="tab-content">
       
-      <div class="map-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d3614.865991211712!2d121.51979152537668!3d25.038621477813333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x3442a976006d29af%3A0xb9f79bf60644c64a!2z5Lit5q2j57SA5b-15aCC5aSn5b-g6ZaAIDEwMOiHuuWMl-W4guS4reato-WNgOS4reWxseWNl-i3rzIx6Jmf!3m2!1d25.0359956!2d121.5226313!4m5!1s0x3442a976b82a6343%3A0xfa4b50ed14c4d879!2z6Ie65aSn6Yar6Zmi5ZyL6Zqb5pyD6K2w5Lit5b-DIDEwMOiHuuWMl-W4guS4reato-WNgOW-kOW3nui3rzLomZ8!3m2!1d25.040942299999998!2d121.52076509999999!5e0!3m2!1szh-TW!2stw!4v1774321729702!5m2!1szh-TW!2stw" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      <a href="https://www.google.com/maps/dir/?api=1&origin=中正紀念堂大忠門&destination=臺大醫院國際會議中心&travelmode=walking" class="btn-map" target="_blank">📱 點此開啟 Google Maps 導航</a>
+      <div class="card">
+        <h2 style="margin-top: 0; color: #1A73E8;">☔ 雨天活動時程表</h2>
+        <ul class="timeline">
+          <li>
+            <span class="time">08:40</span>
+            <div class="event">家長直接將小孩送至會場集合</div>
+            <div class="location">📍 國際會議中心 1 樓會場</div>
+          </li>
+          <li>
+            <span class="time">09:30</span>
+            <div class="event">走位加彩排一次</div>
+          </li>
+          <li>
+            <span class="time">10:00</span>
+            <div class="event">聚會開始</div>
+          </li>
+          <li>
+            <span class="time">10:35</span>
+            <div class="event">預計獻詩 🎵</div>
+          </li>
+          <li>
+            <span class="time">10:40</span>
+            <div class="event">獻詩結束，帶離一樓會場</div>
+            <div class="alert">⚠️ 注意：聯合詩班的 9 位小朋友請繼續留在一樓會場</div>
+          </li>
+          <li>
+            <span class="time">10:50</span>
+            <div class="event">整隊走回教會 🚶‍♂️</div>
+            <div class="location">☔ 沿騎樓或撐傘移動</div>
+          </li>
+          <li>
+            <span class="time">11:10</span>
+            <div class="event">看影片或玩桌遊 (不發彩蛋)</div>
+            <div class="location">📍 林森南路禮拜堂</div>
+            <div class="location">🍙 兒主預備小七肉鬆御飯糰墊肚子</div>
+          </li>
+          <li>
+            <span class="time">12:10</span>
+            <div class="event">老師帶隊走回會議中心 🚶‍♂️</div>
+          </li>
+          <li>
+            <span class="time">12:30</span>
+            <div class="event">家長認領，帶小孩至預定桌次用餐</div>
+            <div class="location">📍 國際會議中心 2 樓餐廳</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="map-title">📍 雨天移動：會議中心 ➔ 教會 (來回)</div>
+        <p style="font-size: 0.9rem; color: #555; margin-top: 0;">因雨天不前往大忠門，僅於教會與會議中心間移動。</p>
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps/embed?..." width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+
     </div>
 
-    <div class="card">
-      <h2 style="margin-top: 0; color: var(--primary-color);">⏰ 活動時程表</h2>
-      <ul class="timeline">
-        <li>
-          <span class="time">08:30 ~ 09:00</span>
-          <div class="event">教會集合練唱</div>
-        </li>
-        <li>
-          <span class="time">09:00 ~ 09:10</span>
-          <div class="event">整隊出發</div>
-        </li>
-        <li>
-          <span class="time">09:10 ~ 09:25</span>
-          <div class="event">抵達會場</div>
-          <div class="location">📍 國際會議中心</div>
-        </li>
-        <li>
-          <span class="time">10:00</span>
-          <div class="event">聚會開始</div>
-        </li>
-        <li>
-          <span class="time">10:35 ~ 10:40</span>
-          <div class="event">預計獻詩 🎵</div>
-        </li>
-        <li>
-          <span class="time">10:40 ~ 10:50</span>
-          <div class="event">整隊準備出發</div>
-        </li>
-        <li>
-          <span class="time">10:50 ~ 11:15</span>
-          <div class="event">前往中正紀念堂🚶‍♂️</div>
-        </li>
-        <li>
-          <span class="time">11:15 ~ 11:30</span>
-          <div class="event">發送復活節彩蛋 🥚</div>
-          <div class="location">📍 大忠門</div>
-        </li>
-        <li>
-          <span class="time">11:30 ~ 11:35</span>
-          <div class="event">整隊返程</div>
-        </li>
-        <li>
-          <span class="time">11:35 ~ 12:00</span>
-          <div class="event">回到聚會現場</div>
-          <div class="location">📍 國際會議中心</div>
-        </li>
-      </ul>
-    </div>
   </div>
+
+  <script>
+    function switchTab(tabId) {
+      // 移除所有按鈕的 active 狀態
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      // 隱藏所有內容
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      // 觸發被點擊的按鈕與內容
+      event.target.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+  </script>
 
 </body>
 </html>
