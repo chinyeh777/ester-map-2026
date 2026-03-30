@@ -37,6 +37,34 @@
       padding: 0 15px;
     }
     
+    /* 服裝規定區塊 */
+    .dress-code-card {
+      background: #FFF8E7;
+      border-left: 5px solid var(--secondary-color);
+      border-radius: 10px;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .dress-code-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #D4A017;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .dress-code-list {
+      margin: 0;
+      padding-left: 0;
+      list-style: none;
+      font-size: 0.95rem;
+    }
+    .dress-code-list li {
+      margin-bottom: 8px;
+    }
+
     /* 頁籤切換設計 */
     .tabs {
       display: flex;
@@ -103,21 +131,6 @@
       border: 0;
       display: block;
     }
-    .btn-map {
-      display: block;
-      width: 100%;
-      background-color: #E8F0FE;
-      color: #1A73E8;
-      text-align: center;
-      padding: 12px 0;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      transition: background-color 0.2s;
-    }
-    .btn-map:active { transform: scale(0.98); }
     
     /* 時間軸設計 */
     .timeline {
@@ -176,6 +189,15 @@
 
   <div class="container">
     
+    <div class="dress-code-card">
+      <div class="dress-code-title">👕 獻詩服裝規定</div>
+      <ul class="dress-code-list">
+        <li>✨ <strong>上半身：</strong>請穿著「白色上衣」</li>
+        <li>✨ <strong>下半身：</strong>請搭配「深色長褲或裙子」</li>
+        <li>✨ <strong>鞋子：</strong>為確保活動與行走安全，請穿著「包鞋」（如運動鞋、休閒鞋），請勿穿著拖鞋或涼鞋。</li>
+      </ul>
+    </div>
+
     <div class="tabs">
       <button class="tab-btn active" onclick="switchTab(event, 'sunny')">☀️ 晴天方案</button>
       <button class="tab-btn" onclick="switchTab(event, 'rainy')">☔ 雨天備案</button>
@@ -225,11 +247,11 @@
             <div class="location">🍙 兒主預備小七肉鬆御飯糰墊肚子</div>
           </li>
           <li>
-            <span class="time">12:10</span>
-            <div class="event">帶隊走回會議中心 🚶‍♂️</div>
+            <span class="time">11:40</span>
+            <div class="event">整隊走回會議中心 🚶‍♂️</div>
           </li>
           <li>
-            <span class="time">12:30</span>
+            <span class="time">12:00</span>
             <div class="event">家長認領，帶小孩至預定桌次用餐</div>
             <div class="location">📍 國際會議中心 2 樓餐廳</div>
           </li>
@@ -296,11 +318,11 @@
             <div class="location">🍙 兒主預備小七肉鬆御飯糰墊肚子</div>
           </li>
           <li>
-            <span class="time">12:10</span>
+            <span class="time">11:50</span>
             <div class="event">老師帶隊走回會議中心 🚶‍♂️</div>
           </li>
           <li>
-            <span class="time">12:30</span>
+            <span class="time">12:00</span>
             <div class="event">家長認領，帶小孩至預定桌次用餐</div>
             <div class="location">📍 國際會議中心 2 樓餐廳</div>
           </li>
